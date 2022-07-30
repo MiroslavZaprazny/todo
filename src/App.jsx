@@ -1,10 +1,29 @@
+import { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [todos, setTodos] = useState([
+    {
+      id: 1,
+      title: 'Precitat knihu',
+      isComplete: false,
+    },
+    {
+      id: 2,
+      title: 'Vysrat sa',
+      isComplete: false,
+    },
+    {
+      id: 3,
+      title: 'no hej',
+      isComplete: false,
+    },
+  ]);
+
   return (
     <div className="App">
       <div className="bg-white w-100 shadow-md rounded-md mx-auto my-12 px-4 py-6">
-        <div className="todo ">
+        <div className="todo">
           <h3 className="font-semibold text-lg">Todo app</h3>
 
           <form action="#">
@@ -16,32 +35,35 @@ function App() {
           </form>
           <div className="mt-4 border-b px-3 py-3">
             <ul className="space-y-3">
-              <li className="flex items-center justify-between">
-                <div>
-                  <input type="checkbox" />
-                  <span className="ml-4 text-lg text-gray-900">
-                    Finish a book
-                  </span>
-                </div>
-                <div className="flex justify-center items-center mt-2">
-                  <button>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-gray-600"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </li>
+              {todos.map((todo) => (
+                <li key={todo.id} 
+                  className="flex items-center justify-between">
+                  <div>
+                    <input type="checkbox" />
+                    <span className="ml-4 text-lg text-gray-900">
+                      {todo.title}
+                    </span>
+                  </div>
+                  <div className="flex justify-center items-center mt-2">
+                    <button>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6 text-gray-600"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </li>
+              ))}
             </ul>
           </div>
           <div className="flex justify-between items-center text-xs border-b text-gray-400  px-3 pt-4 pb-3">
