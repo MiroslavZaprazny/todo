@@ -3,6 +3,8 @@ import './App.css';
 import NoTodos from './components/NoTodos';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
+import CheckAllTodos from './components/CheckAllTodos';
+import TodoFiltres from './components/TodoFilters';
 
 function App() {
   const [todos, setTodos] = useState([
@@ -32,17 +34,11 @@ function App() {
         <div className="todo">
           <h3 className="font-semibold text-lg">Todo app</h3>
 
-         <TodoForm 
-          todos={todos}
-          setTodos={setTodos}
-         />
+          <TodoForm todos={todos} setTodos={setTodos} />
           {todos.length > 0 ? (
-            <TodoList
-              todos={todos}
-              setTodos={setTodos}
-             />
+            <TodoList todos={todos} setTodos={setTodos} />
           ) : (
-           <NoTodos />
+            <NoTodos />
           )}
         </div>
       </div>

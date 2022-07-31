@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import CheckAllTodos from './CheckAllTodos';
+import TodoFiltres from './TodoFilters';
 
 export default function TodoList(props) {
+  const [filter, setFilter] = useState('All');
+
   const deleteTodo = (id) => {
     props.setTodos([...props.todos].filter((todo) => todo.id !== id));
   };
@@ -50,11 +54,21 @@ export default function TodoList(props) {
     props.setTodos(updatedTodos);
   };
 
+  const todosFilter = (filter) => {
+    if (filter == 'All') {
+      return props.todos;
+    } else if (filter == 'Active') {
+      return props.todos.filter((todo) => !todo.isComplete);
+    } else if (filter == 'Completed') {
+      return props.todos.filter((todo) => todo.isComplete);
+    }
+  };
+
   return (
     <>
       <div className="mt-4 border-b px-3 py-3">
         <ul className="space-y-3">
-          {props.todos.map((todo) => (
+          {todosFilter(filter).map((todo) => (
             <li key={todo.id} className="flex items-center justify-between">
               <div className="flex justify-center align-center space-x-2">
                 <input
@@ -109,30 +123,18 @@ export default function TodoList(props) {
           ))}
         </ul>
       </div>
-      <div className="flex justify-between items-center text-xs border-b text-gray-400  px-3 pt-4 pb-3">
-        <button className="border rounded-md py-1 px-2 hover:text-gray-600">
-          Check all
-        </button>
-        <div className="text-sm">4 items remaining</div>
-      </div>
-      <div className="flex placeholder justify-between items-center text-xs py-4 px-3 text-gray-400">
-        <div className="flex space-x-1">
-          <button className="border rounded-md py-1 px-2 hover:text-gray-600">
-            All
-          </button>
-          <button className="rounded-md py-1 px-2 hover:text-gray-600">
-            Active
-          </button>
-          <button className="rounded-md py-1 px-2 hover:text-gray-600">
-            All
-          </button>
-        </div>
-        <div>
-          <button className="border rounded-md py-1 px-2 hover:text-gray-600">
-            Clear completed
-          </button>
-        </div>
-      </div>
+
+      <CheckAllTodos 
+        todos={props.todos} 
+        setTodos={props.setTodos} />
+      
+      <TodoFiltres
+        todos={props.todos}
+        setTodos={props.setTodos}
+        filter={filter}
+        setFilter={setFilter}
+      />
+
     </>
   );
 }
