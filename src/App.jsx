@@ -20,15 +20,51 @@ function App() {
     },
   ]);
 
+  const [todoInput, setTodoInput] = useState('');
+  const [idForTodo, setIdForTodo] = useState(4);
+
+  const addTodo = (e) => {
+    e.preventDefault();
+
+    // handles the case when user types in nothing
+    if(todoInput.trim().length === 0)
+    {
+      return;
+    }
+
+    setTodos([
+      ...todos,
+      {
+        id: idForTodo,
+        title: todoInput,
+        isComplete: false,
+      },
+    ]);
+
+    setTodoInput('');
+    setIdForTodo(prevIdForTodo => idForTodo + 1);
+  };
+
+  const deleteTodo = (id) => {
+    setTodos([...todos].filter(todo => todo.id !== id));
+  }
+
+  function handleInput(event)
+  {
+    setTodoInput(event.target.value);
+  }
+
   return (
     <div className="App">
       <div className="bg-white w-100 shadow-md rounded-md mx-auto my-12 px-4 py-6">
         <div className="todo">
           <h3 className="font-semibold text-lg">Todo app</h3>
 
-          <form action="#">
+          <form action="#" onSubmit={addTodo}>
             <input
               type="text"
+              value={todoInput}
+              onChange={handleInput}
               className="border w-full h-10 rounded-md mt-2 px-3 py-2"
               placeholder="What do you need to do?"
             />
@@ -36,8 +72,7 @@ function App() {
           <div className="mt-4 border-b px-3 py-3">
             <ul className="space-y-3">
               {todos.map((todo) => (
-                <li key={todo.id} 
-                  className="flex items-center justify-between">
+                <li key={todo.id} className="flex items-center justify-between">
                   <div>
                     <input type="checkbox" />
                     <span className="ml-4 text-lg text-gray-900">
@@ -45,18 +80,18 @@ function App() {
                     </span>
                   </div>
                   <div className="flex justify-center items-center mt-2">
-                    <button>
+                    <button onClick={() => deleteTodo(todo.id)}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-6 w-6 text-gray-600"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
-                        stroke-width="2"
+                        strokeWidth="2"
                       >
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                           d="M6 18L18 6M6 6l12 12"
                         />
                       </svg>
