@@ -7,16 +7,19 @@ function App() {
       id: 1,
       title: 'Precitat knihu',
       isComplete: false,
+      isEditing: false,
     },
     {
       id: 2,
       title: 'Vysrat sa',
-      isComplete: false,
+      isComplete: true,
+      isEditing: false,
     },
     {
       id: 3,
       title: 'no hej',
       isComplete: false,
+      isEditing: false,
     },
   ]);
 
@@ -27,8 +30,7 @@ function App() {
     e.preventDefault();
 
     // handles the case when user types in nothing
-    if(todoInput.trim().length === 0)
-    {
+    if (todoInput.trim().length === 0) {
       return;
     }
 
@@ -42,15 +44,59 @@ function App() {
     ]);
 
     setTodoInput('');
-    setIdForTodo(prevIdForTodo => idForTodo + 1);
+    setIdForTodo((prevIdForTodo) => idForTodo + 1);
   };
 
   const deleteTodo = (id) => {
-    setTodos([...todos].filter(todo => todo.id !== id));
-  }
+    setTodos([...todos].filter((todo) => todo.id !== id));
+  };
 
-  function handleInput(event)
-  {
+  const markAsComplete = (id) => {
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.isComplete = !todo.isComplete;
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
+  };
+
+  const markAsEditing = (id) => {
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.isEditing = true;
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
+  };
+
+  const updateTodo = (event, id) => {
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        if (event.target.value.trim().length === 0) {
+          todo.isEditing = false;
+          return todo;
+        }
+        todo.title = event.target.value;
+        todo.isEditing = false;
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
+  };
+
+  const cancelEdit = (id) => {
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.isEditing = false;
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
+  };
+
+  function handleInput(event) {
     setTodoInput(event.target.value);
   }
 
@@ -73,11 +119,37 @@ function App() {
             <ul className="space-y-3">
               {todos.map((todo) => (
                 <li key={todo.id} className="flex items-center justify-between">
-                  <div>
-                    <input type="checkbox" />
-                    <span className="ml-4 text-lg text-gray-900">
-                      {todo.title}
-                    </span>
+                  <div className="flex justify-center align-center space-x-2">
+                    <input
+                      type="checkbox"
+                      onChange={() => markAsComplete(todo.id)}
+                      checked={todo.isComplete ? true : false}
+                    />
+                    {!todo.isEditing ? (
+                      <span
+                        className={`ml-4 text-lg text-gray-900
+                      ${todo.isComplete ? 'line-through' : ''}`}
+                        onDoubleClick={() => markAsEditing(todo.id)}
+                      >
+                        {todo.title}
+                      </span>
+                    ) : (
+                      <input
+                        type="text"
+                        onBlur={(event) => updateTodo(event, todo.id)}
+                        onKeyDown={(event) => {
+                          if (event.key === 'Enter') {
+                            updateTodo(event, todo.id);
+                          }else if(event.key === 'Escape')
+                          {
+                            cancelEdit(todo.id);
+                          }
+                        }}
+                        defaultValue={todo.title}
+                        className="border w-full h-10 rounded-md px-3 py-2"
+                        autoFocus
+                      />
+                    )}
                   </div>
                   <div className="flex justify-center items-center mt-2">
                     <button onClick={() => deleteTodo(todo.id)}>
