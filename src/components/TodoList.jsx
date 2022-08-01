@@ -55,11 +55,11 @@ export default function TodoList(props) {
   };
 
   const todosFilter = (filter) => {
-    if (filter == 'All') {
+    if (filter === 'All') {
       return props.todos;
-    } else if (filter == 'Active') {
+    } else if (filter === 'Active') {
       return props.todos.filter((todo) => !todo.isComplete);
-    } else if (filter == 'Completed') {
+    } else if (filter === 'Completed') {
       return props.todos.filter((todo) => todo.isComplete);
     }
   };

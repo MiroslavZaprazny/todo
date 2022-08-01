@@ -13,7 +13,7 @@ export default function TodoFiltres(props) {
         <button
           onClick={() => setFilter('All')}
           className={`rounded-md py-1 px-2 hover:text-gray-600
-            ${filter == 'All' ? 'border' : ''}
+            ${filter === 'All' ? 'border' : ''}
           `}
         >
           All
@@ -21,7 +21,7 @@ export default function TodoFiltres(props) {
         <button
           onClick={() => setFilter('Active')}
           className={`rounded-md py-1 px-2 hover:text-green-600
-          ${filter == 'Active' ? 'border border-green-600' : ''}
+          ${filter === 'Active' ? 'border border-green-600' : ''}
           `}
         >
           Active
@@ -29,7 +29,7 @@ export default function TodoFiltres(props) {
         <button
           onClick={() => setFilter('Completed')}
           className={`rounded-md py-1 px-2 hover:text-amber-600
-            ${filter == 'Completed' ? 'border border-amber-600' : ''}
+            ${filter === 'Completed' ? 'border border-amber-600' : ''}
           `}
         >
           Completed
