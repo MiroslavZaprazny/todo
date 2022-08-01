@@ -1,37 +1,18 @@
-import { useState } from 'react';
 import './App.css';
 import NoTodos from './components/NoTodos';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 import NameContainer from './components/NameContainer';
+import useLocalStorage from './hooks/useLocalStorage'
 
 function App() {
-  const [todos, setTodos] = useState([
-    {
-      id: 1,
-      title: 'Precitat knihu',
-      isComplete: false,
-      isEditing: false,
-    },
-    {
-      id: 2,
-      title: 'Vysrat sa',
-      isComplete: true,
-      isEditing: false,
-    },
-    {
-      id: 3,
-      title: 'no hej',
-      isComplete: false,
-      isEditing: false,
-    },
-  ]);
+  const [todos, setTodos] = useLocalStorage('todos', []);
 
   return (
     <div className="App">
       <div className="bg-white w-100 shadow-md rounded-md mx-auto my-12 px-4 py-6">
         <div className="todo">
-          <NameContainer todos={todos} />
+          {/* <NameContainer todos={todos} /> */}
           <h3 className="font-semibold text-lg">Todo app</h3>
 
           <TodoForm todos={todos} setTodos={setTodos} />

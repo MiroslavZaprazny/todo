@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 export default function TodoForm(props) {
   const [todoInput, setTodoInput] = useState('');
 
-  const [idForTodo, setIdForTodo] = useState(4);
+  const [idForTodo, setIdForTodo] = useLocalStorage('idForTodo', 1)
 
   const handleInput = (event) => {
     setTodoInput(event.target.value);

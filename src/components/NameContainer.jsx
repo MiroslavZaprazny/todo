@@ -1,13 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
+import useLocalStorage from '../hooks/useLocalStorage';
+
 
 export default function NameContainer(props) {
   const { todos } = props;
-  const [name, setName] = useState('');
+  const [name, setName] = useLocalStorage('name', '')
   const nameInputEl = useRef(null);
 
   useEffect(() => {
     nameInputEl.current.focus();
+
+    // setName(JSON.parse(localStorage.getItem('name')) ?? '');
   }, []);
+
+  const handleNameInput = (event) => {
+    setName(event.target.value);
+    // localStorage.setItem('name', JSON.stringify(event.target.value));
+  };
 
   return (
     <div className="name-container mb-6">
@@ -18,7 +27,7 @@ export default function NameContainer(props) {
           type="text"
           value={name}
           ref={nameInputEl}
-          onChange={(event) => setName(event.target.value)}
+          onChange={handleNameInput}
           className="border w-full h-10 rounded-md mt-2 px-3 py-2"
           placeholder="What is your name?"
         />
